@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de beneficiarios CONTEC</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{font-family:'Nunito',sans-serif;border-radius:20px;overflow:hidden}
+.hdr{background:#042C53;padding:32px 28px 28px;text-align:center;position:relative}
+.hdr-wave{position:absolute;bottom:0;left:0;width:100%;height:28px;background:#E6F1FB;clip-path:ellipse(55% 100% at 50% 100%)}
+.hdr-brand{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:4px}
+.hdr-tag{font-size:12px;color:#85B7EB;letter-spacing:1px;margin-bottom:14px}
+.hdr-desc{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;max-width:380px;margin:0 auto;padding-bottom:16px}
+.progress-zone{background:#E6F1FB;padding:18px 28px 0}
+.steps-row{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:10px}
+.sdot{width:32px;height:32px;border-radius:50%;background:#B5D4F4;color:#042C53;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.sdot.active{background:#185FA5;color:#fff;transform:scale(1.15)}
+.sdot.done{background:#042C53;color:#fff}
+.sline{height:3px;flex:1;max-width:60px;background:#B5D4F4;border-radius:2px;transition:background .4s}
+.sline.done{background:#042C53}
+.plabel{text-align:center;font-size:12px;color:#185FA5;font-weight:700;padding-bottom:14px;font-family:'Space Grotesk',sans-serif;letter-spacing:.5px}
+.fbody{background:#fff;padding:28px;border:0.5px solid #B5D4F4;border-top:none;border-radius:0 0 20px 20px}
+.panel{display:none;animation:fadeIn .35s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ptitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:#042C53;margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.ptitle i{color:#378ADD;font-size:20px}
+.fg{margin-bottom:16px}
+.lbl{display:block;font-size:13px;font-weight:700;color:#0C447C;margin-bottom:6px;font-family:'Space Grotesk',sans-serif}
+.req{color:#E24B4A;margin-left:2px}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;border-radius:12px;border:2px solid #B5D4F4;padding:10px 14px;font-size:14px;font-family:'Nunito',sans-serif;color:#042C53}
+input:focus,textarea:focus{border-color:#378ADD;box-shadow:0 0 0 4px rgba(55,138,221,0.12);outline:none}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+.radio-g,.check-g{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:center;gap:12px;padding:11px 16px;border:2px solid #B5D4F4;border-radius:12px;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-size:14px;color:#042C53}
+.opt:hover{border-color:#378ADD;background:#E6F1FB;transform:translateX(4px)}
+.opt.selected{border-color:#185FA5;background:#E6F1FB;color:#042C53;font-weight:700;transform:translateX(6px)}
+.opt input{accent-color:#185FA5;width:17px;height:17px;flex-shrink:0}
+.opt-icon{width:28px;height:28px;border-radius:8px;background:#B5D4F4;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:background .25s}
+.opt.selected .opt-icon{background:#185FA5;color:#fff}
+.check-opt{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid #B5D4F4;border-radius:12px;cursor:pointer;transition:all .2s;font-size:13px;color:#042C53}
+.check-opt:hover{border-color:#378ADD;background:#E6F1FB}
+.check-opt.selected{border-color:#185FA5;background:#E6F1FB;font-weight:700}
+.check-opt input{accent-color:#185FA5;width:16px;height:16px;flex-shrink:0;margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:2px solid #E6F1FB}
+.btn{padding:11px 26px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif}
+.btn:active{transform:scale(0.96)}
+.btn-p{background:#185FA5;color:#fff}
+.btn-p:hover{background:#042C53;transform:scale(1.03)}
+.btn-s{background:transparent;color:#185FA5;border:2px solid #85B7EB}
+.btn-s:hover{background:#E6F1FB;transform:scale(1.03)}
+.btn-ok{background:#042C53;color:#fff}
+.btn-ok:hover{background:#185FA5;transform:scale(1.03)}
+.err-msg{font-size:12px;color:#A32D2D;margin-top:5px;display:none;font-weight:600}
+.fg.has-err input,.fg.has-err textarea{border-color:#E24B4A}
+.fg.has-err .err-msg{display:block}
+.success{display:none;text-align:center;padding:36px 20px 28px}
+.success.active{display:block;animation:fadeIn .5s ease}
+.success-rings{position:relative;width:80px;height:80px;margin:0 auto 20px}
+.ring{position:absolute;border-radius:50%;border:3px solid transparent;animation:ringPop .6s cubic-bezier(.34,1.56,.64,1) forwards;opacity:0}
+.ring1{width:80px;height:80px;border-color:#378ADD;animation-delay:.1s}
+.ring2{width:60px;height:60px;top:10px;left:10px;border-color:#185FA5;animation-delay:.2s}
+.ring3{width:40px;height:40px;top:20px;left:20px;background:#042C53;display:flex;align-items:center;justify-content:center;animation-delay:.3s}
+@keyframes ringPop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.success h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#042C53;margin-bottom:10px}
+.success p{color:#555;font-size:14px;line-height:1.7;max-width:340px;margin:0 auto 18px}
+.pill{display:inline-block;background:#E6F1FB;color:#0C447C;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;font-family:'Space Grotesk',sans-serif;border:1.5px solid #85B7EB}
+.send-overlay{display:none;text-align:center;padding:30px}
+.spin{width:36px;height:36px;border:3px solid #E6F1FB;border-top-color:#185FA5;border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 12px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:500px){.two-col{grid-template-columns:1fr}.hdr,.fbody,.progress-zone{padding-left:16px;padding-right:16px}}
+  </style>
+</head>
+<body>
+
+<h2 class="sr-only">Formulario de beneficiarios CONTEC — Asesoramos tus decisiones</h2>
+
+<div class="app">
+  <div class="hdr">
+    <div class="hdr-brand">CONTEC</div>
+    <div class="hdr-tag">Asesoramos tus decisiones</div>
+    <div class="hdr-desc">Completá el formulario para sumarte como beneficiario. Tu información nos permite conocerte mejor y diseñar un acompañamiento a medida.</div>
+    <div class="hdr-wave"></div>
+  </div>
+
+  <div class="progress-zone" id="pzone">
+    <div class="steps-row" id="stepsRow"></div>
+    <div class="plabel" id="plabel"></div>
+  </div>
+
+  <div class="fbody">
+    <div id="s1" class="panel active">
+      <div class="ptitle"><i class="ti ti-user" aria-hidden="true"></i> ¿Quién sos?</div>
+
+      <div class="fg" id="fg-nombre">
+        <label class="lbl">Nombre de la organización, emprendimiento o tu nombre completo (si sos autónomo/a) <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Ej: Emprendimiento Las Flores / María López" />
+        <span class="err-msg">Este campo es obligatorio.</span>
+      </div>
+
+      <div class="fg" id="fg-ubicacion">
+        <label class="lbl">¿Dónde estás ubicado/a? <span class="req">*</span></label>
+        <div class="radio-g">
+          <label class="opt" onclick="pickRadio(this,'ubicacion','Comodoro Rivadavia')">
+            <div class="opt-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+            <input type="radio" name="ubicacion" value="Comodoro Rivadavia" /> Comodoro Rivadavia
+          </label>
+          <label class="opt" onclick="pickRadio(this,'ubicacion','Rada Tilly')">
+            <div class="opt-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+            <input type="radio" name="ubicacion" value="Rada Tilly" /> Rada Tilly
+          </label>
+          <label class="opt" onclick="pickRadio(this,'ubicacion','Otro')">
+            <div class="opt-icon"><i class="ti ti-map-2" aria-hidden="true"></i></div>
+            <input type="radio" name="ubicacion" value="Otro" /> Otro
+          </label>
+        </div>
+        <span class="err-msg">Seleccioná una opción.</span>
+      </div>
+
+      <div class="fg" id="fg-ubiOtro" style="display:none">
+        <label class="lbl">Especificá la localidad</label>
+        <input type="text" id="ubiOtro" placeholder="Nombre de la localidad" />
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Barrio</label>
+        <input type="text" id="barrio" placeholder="Ej: Centro, Stella Maris, San Martín..." />
+      </div>
+
+      <div class="nav">
+        <span></span>
+        <button class="btn btn-p" onclick="go(2)">Siguiente <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div id="s2" class="panel">
+      <div class="ptitle"><i class="ti ti-bulb" aria-hidden="true"></i> Tu actividad</div>
+
+      <div class="fg" id="fg-rubro">
+        <label class="lbl">¿Qué actividad o rubro realiza tu organización? <span class="req">*</span></label>
+        <textarea id="rubro" placeholder="Contanos brevemente a qué se dedica tu organización o emprendimiento..."></textarea>
+        <span class="err-msg">Este campo es obligatorio.</span>
+      </div>
+
+      <div class="fg" id="fg-problema">
+        <label class="lbl">¿Cuál es el problema que querés resolver? <span class="req">*</span></label>
+        <textarea id="problema" placeholder="¿Qué situación o dificultad busca atender con la asesoría de CONTEC?"></textarea>
+        <span class="err-msg">Este campo es obligatorio.</span>
+      </div>
+
+      <div class="fg" id="fg-motivacion">
+        <label class="lbl">¿Por qué querés sumarte como beneficiario/a? <span class="req">*</span></label>
+        <div class="check-g">
+          <label class="check-opt" onclick="toggleCheck(this)">
+            <input type="checkbox" value="Quiero colaborar con el proyecto de la Escuela 770" /> Quiero colaborar con el proyecto de la Escuela 770
+          </label>
+          <label class="check-opt" onclick="toggleCheck(this)">
+            <input type="checkbox" value="Considero que el apoyo de CONTEC puede sumar valor a mi organización" /> Considero que el apoyo de CONTEC puede sumar valor a mi organización
+          </label>
+          <label class="check-opt" onclick="toggleCheck(this)">
+            <input type="checkbox" value="Me interesa sumar pasantes Técnicos en Gestión y Administración de Organizaciones" /> Me interesa sumar pasantes Técnicos en Gestión y Administración de Organizaciones
+          </label>
+        </div>
+        <div style="margin-top:10px">
+          <label class="lbl" style="font-size:12px;font-weight:600;color:#666">¿Querés agregar algo más? (opcional)</label>
+          <textarea id="motivExtra" style="min-height:60px" placeholder="Escribí libremente..."></textarea>
+        </div>
+        <span class="err-msg">Seleccioná al menos una opción.</span>
+      </div>
+
+      <div class="nav">
+        <button class="btn btn-s" onclick="go(1)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Anterior</button>
+        <button class="btn btn-p" onclick="go(3)">Siguiente <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div id="s3" class="panel">
+      <div class="ptitle"><i class="ti ti-phone" aria-hidden="true"></i> Contacto y disponibilidad</div>
+
+      <div class="two-col">
+        <div class="fg" id="fg-email">
+          <label class="lbl">Correo electrónico <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="ejemplo@correo.com" />
+          <span class="err-msg">Ingresá un correo válido.</span>
+        </div>
+        <div class="fg" id="fg-tel">
+          <label class="lbl">Teléfono / WhatsApp <span class="req">*</span></label>
+          <input type="tel" id="tel" placeholder="Ej: 297 400-0000" />
+          <span class="err-msg">Este campo es obligatorio.</span>
+        </div>
+      </div>
+
+      <div class="fg" id="fg-horario">
+        <label class="lbl">¿Cuándo preferís que te contactemos? <span class="req">*</span></label>
+        <div class="radio-g">
+          <label class="opt" onclick="pickRadio(this,'horario','Mañana')">
+            <div class="opt-icon"><i class="ti ti-sun" aria-hidden="true"></i></div>
+            <input type="radio" name="horario" value="Mañana" /> Mañana
+          </label>
+          <label class="opt" onclick="pickRadio(this,'horario','Tarde')">
+            <div class="opt-icon"><i class="ti ti-moon" aria-hidden="true"></i></div>
+            <input type="radio" name="horario" value="Tarde" /> Tarde
+          </label>
+          <label class="opt" onclick="pickRadio(this,'horario','Ambos')">
+            <div class="opt-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+            <input type="radio" name="horario" value="Ambos" /> Mañana y tarde
+          </label>
+        </div>
+        <span class="err-msg">Seleccioná una opción.</span>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Especificar horario preferido</label>
+        <input type="text" id="horarioEsp" placeholder="Ej: Lunes a viernes de 9 a 12 hs." />
+      </div>
+
+      <div class="fg" id="fg-reunion">
+        <label class="lbl">¿Te gustaría coordinar una reunión para recibir más info? <span class="req">*</span></label>
+        <div class="radio-g">
+          <label class="opt" onclick="pickRadio(this,'reunion','Sí, de manera virtual')">
+            <div class="opt-icon"><i class="ti ti-video" aria-hidden="true"></i></div>
+            <input type="radio" name="reunion" value="Sí, de manera virtual" /> Sí, de manera virtual
+          </label>
+          <label class="opt" onclick="pickRadio(this,'reunion','Sí, de manera presencial')">
+            <div class="opt-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+            <input type="radio" name="reunion" value="Sí, de manera presencial" /> Sí, de manera presencial
+          </label>
+          <label class="opt" onclick="pickRadio(this,'reunion','No, por el momento')">
+            <div class="opt-icon"><i class="ti ti-x" aria-hidden="true"></i></div>
+            <input type="radio" name="reunion" value="No, por el momento" /> No, por el momento
+          </label>
+        </div>
+        <span class="err-msg">Seleccioná una opción.</span>
+      </div>
+
+      <div class="nav">
+        <button class="btn btn-s" onclick="go(2)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Anterior</button>
+        <button class="btn btn-ok" onclick="enviar()"><i class="ti ti-send" aria-hidden="true"></i> Enviar</button>
+      </div>
+    </div>
+
+    <div class="send-overlay" id="sendOverlay">
+      <div class="spin"></div>
+      <p style="color:#666;font-size:14px;font-family:'Nunito',sans-serif;">Enviando tu información...</p>
+    </div>
+
+    <div class="success" id="successBox">
+      <div class="success-rings">
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"><i class="ti ti-check" style="color:#fff;font-size:16px" aria-hidden="true"></i></div>
+      </div>
+      <h2>¡Muchas gracias!</h2>
+      <p>Tu formulario fue completado con éxito. Pronto la organización CONTEC se pondrá en contacto con vos para dar el siguiente paso juntos.</p>
+      <div class="pill"><i class="ti ti-check" style="font-size:11px;vertical-align:-1px"></i> Información registrada</div>
+      <div style="margin-top:22px">
+        <button class="btn btn-s" onclick="reset()" style="margin:0 auto"><i class="ti ti-refresh" aria-hidden="true"></i> Nuevo formulario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STEPS=3;
+const LABELS=['¿Quién sos?','Tu actividad','Contacto'];
+let cur=1;
+const RS={};
+
+function render(){
+  const row=document.getElementById('stepsRow');
+  const lbl=document.getElementById('plabel');
+  let h='';
+  for(let i=1;i<=STEPS;i++){
+    const c=i<cur?'done':i===cur?'active':'';
+    h+=`<div class="sdot ${c}">${i<cur?'<i class="ti ti-check" style="font-size:12px"></i>':i}</div>`;
+    if(i<STEPS) h+=`<div class="sline ${i<cur?'done':''}"></div>`;
+  }
+  row.innerHTML=h;
+  lbl.textContent=`Paso ${cur} de ${STEPS} — ${LABELS[cur-1]}`;
+}
+
+function pickRadio(el,name,val){
+  document.querySelectorAll(`.opt`).forEach(o=>{if(o.querySelector(`input[name="${name}"]`))o.classList.remove('selected')});
+  el.classList.add('selected');
+  RS[name]=val;
+  if(name==='ubicacion') document.getElementById('fg-ubiOtro').style.display=val==='Otro'?'block':'none';
+  const fg=document.getElementById('fg-'+name);
+  if(fg) fg.classList.remove('has-err');
+}
+
+function toggleCheck(el){
+  const cb=el.querySelector('input[type=checkbox]');
+  cb.checked=!cb.checked;
+  el.classList.toggle('selected',cb.checked);
+  document.getElementById('fg-motivacion').classList.remove('has-err');
+}
+
+function clrErr(id){const e=document.getElementById(id);if(e)e.classList.remove('has-err');}
+function setErr(id){const e=document.getElementById(id);if(e){e.classList.add('has-err');return false;}return true;}
+
+function valid(step){
+  let ok=true;
+  if(step===1){
+    if(!document.getElementById('nombre').value.trim()){setErr('fg-nombre');ok=false;}else clrErr('fg-nombre');
+    if(!RS['ubicacion']){setErr('fg-ubicacion');ok=false;}else clrErr('fg-ubicacion');
+  }
+  if(step===2){
+    if(!document.getElementById('rubro').value.trim()){setErr('fg-rubro');ok=false;}else clrErr('fg-rubro');
+    if(!document.getElementById('problema').value.trim()){setErr('fg-problema');ok=false;}else clrErr('fg-problema');
+    if(!document.querySelectorAll('.check-opt.selected').length){setErr('fg-motivacion');ok=false;}else clrErr('fg-motivacion');
+  }
+  if(step===3){
+    const em=document.getElementById('email').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){setErr('fg-email');ok=false;}else clrErr('fg-email');
+    if(!document.getElementById('tel').value.trim()){setErr('fg-tel');ok=false;}else clrErr('fg-tel');
+    if(!RS['horario']){setErr('fg-horario');ok=false;}else clrErr('fg-horario');
+    if(!RS['reunion']){setErr('fg-reunion');ok=false;}else clrErr('fg-reunion');
+  }
+  return ok;
+}
+
+function go(to){
+  if(to>cur&&!valid(cur))return;
+  document.getElementById('s'+cur).classList.remove('active');
+  cur=to;
+  document.getElementById('s'+cur).classList.add('active');
+  render();
+  document.querySelector('.app').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function collectData(){
+  const motiv=[...document.querySelectorAll('.check-opt.selected input')].map(c=>c.value);
+  const me=document.getElementById('motivExtra').value.trim();
+  if(me) motiv.push('Otro: '+me);
+  const ub=RS['ubicacion']==='Otro'?document.getElementById('ubiOtro').value.trim():RS['ubicacion'];
+  return{
+    fecha:new Date().toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'}),
+    nombre:document.getElementById('nombre').value.trim(),
+    ubicacion:ub,
+    barrio:document.getElementById('barrio').value.trim(),
+    rubro:document.getElementById('rubro').value.trim(),
+    problema:document.getElementById('problema').value.trim(),
+    motivacion:motiv.join(' | '),
+    email:document.getElementById('email').value.trim(),
+    telefono:document.getElementById('tel').value.trim(),
+    horario:RS['horario'],
+    horarioEsp:document.getElementById('horarioEsp').value.trim(),
+    reunion:RS['reunion']
+  };
+}
+
+async function enviar(){
+  if(!valid(3))return;
+  document.getElementById('s3').classList.remove('active');
+  document.getElementById('sendOverlay').style.display='block';
+  const data=collectData();
+  const URL_SHEET='https://script.google.com/macros/s/AKfycbwkQgr4jIOaAvBo52kUAu8CCXm_NM8JtkzUbdGJSyjgtbUB2J9sZxQQiumMXYDEbfE/exec';
+  try{await fetch(URL_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});}catch(e){console.log('Integración pendiente',e);}
+  await new Promise(r=>setTimeout(r,1400));
+  document.getElementById('sendOverlay').style.display='none';
+  document.getElementById('pzone').style.display='none';
+  document.getElementById('successBox').classList.add('active');
+  console.log('Datos:',data);
+}
+
+function reset(){
+  cur=1;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('s1').classList.add('active');
+  document.getElementById('successBox').classList.remove('active');
+  document.getElementById('pzone').style.display='block';
+  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],textarea').forEach(i=>i.value='');
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(i=>i.checked=false);
+  document.querySelectorAll('.opt,.check-opt').forEach(o=>o.classList.remove('selected'));
+  Object.keys(RS).forEach(k=>delete RS[k]);
+  document.getElementById('fg-ubiOtro').style.display='none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
